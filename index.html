@@ -29,14 +29,13 @@ var markers = [];
 fetch("LINK_CSV_SHEET")
 .then(res => res.text())
 .then(csv => {
-
   let rows = csv.split("\n").slice(1);
 
   rows.forEach(r => {
     if(r.trim() === "") return; // skip baris kosong
 
     let col = r.match(/(".*?"|[^",\s]+)(?=\s*,|\s*$)/g);
-    if(!col) return;
+    if(!col || col.length < 4) return;
 
     let rumah = col[0].replace(/"/g,'');
     let penghuni = col[1].replace(/"/g,'');
@@ -51,6 +50,7 @@ fetch("LINK_CSV_SHEET")
     }
   });
 
+  // hanya fitBounds jika ada marker valid
   if(markers.length > 0){
     var group = new L.featureGroup(markers);
     map.fitBounds(group.getBounds());
