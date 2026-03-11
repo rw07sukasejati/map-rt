@@ -8,7 +8,7 @@
 
 <style>
 #map{
-height:100vh;
+  height:100vh;
 }
 </style>
 </head>
@@ -18,7 +18,7 @@ height:100vh;
 <div id="map"></div>
 
 <script>
-var map = L.map('map').setView([-6.23,106.55],18);
+var map = L.map('map'); // setView dihapus karena kita pakai fitBounds
 
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
   maxZoom:20
@@ -29,11 +29,12 @@ var markers = [];
 fetch("https://docs.google.com/spreadsheets/d/e/2PACX-1vQAmVPDHmQinF7vfKARvQ-cessl32qBxNc-Wl7hULAiZgX7sUIb0smES2hBBQqxz4ulQh-7bbtsGmd1/pub?output=csv")
 .then(res => res.text())
 .then(csv => {
-  let rows = csv.split("\n").slice(1);
+  let rows = csv.split("\n").slice(1); // skip header
 
   rows.forEach(r => {
     if(r.trim() === "") return; // skip baris kosong
 
+    // split CSV aman untuk nama dengan koma
     let col = r.match(/(".*?"|[^",\s]+)(?=\s*,|\s*$)/g);
     if(!col || col.length < 4) return;
 
@@ -50,7 +51,7 @@ fetch("https://docs.google.com/spreadsheets/d/e/2PACX-1vQAmVPDHmQinF7vfKARvQ-ces
     }
   });
 
-  // hanya fitBounds jika ada marker valid
+  // zoom otomatis ke semua marker
   if(markers.length > 0){
     var group = new L.featureGroup(markers);
     map.fitBounds(group.getBounds());
