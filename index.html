@@ -26,7 +26,7 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
 
 var markers = [];
 
-fetch("LINK_CSV_SHEET")
+fetch("https://docs.google.com/spreadsheets/d/e/2PACX-1vQAmVPDHmQinF7vfKARvQ-cessl32qBxNc-Wl7hULAiZgX7sUIb0smES2hBBQqxz4ulQh-7bbtsGmd1/pub?output=csv")
 .then(res => res.text())
 .then(csv => {
   let rows = csv.split("\n").slice(1);
